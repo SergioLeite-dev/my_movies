@@ -17,8 +17,9 @@ class Helpers {
   };
 
   static String formatDate(String? rawDate) {
-    if (rawDate == null) return "";
+    if (rawDate == null || rawDate == "") return "";
     final splited = rawDate.split("-");
+    if (splited.length < 3) return "";
     return "${_months[splited[1]]} ${splited[2]}, ${splited[0]}";
   }
 }
