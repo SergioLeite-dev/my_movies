@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_movies/configuration/environment_values.dart';
-import 'package:my_movies/models/trending/request/trending_request_model.dart';
-import 'package:my_movies/models/trending/response/movie_result_model.dart';
-import 'package:my_movies/models/trending/response/trending_response_model.dart';
+import 'package:my_movies/models/request/trending_request_model.dart';
+import 'package:my_movies/models/response/movie_result_model.dart';
+import 'package:my_movies/models/response/trending_response_model.dart';
 import 'package:my_movies/services/http_client_service.dart';
 
 enum TimeWindow {
@@ -19,7 +19,7 @@ class HomeController extends GetxController {
 
   //Trending API
   TrendingRequestModel trendingRequest = TrendingRequestModel(page: 1);
-  TrendingResponseModel? response;
+  MovieListResponseModel? response;
   List<MovieResultModel> trendingMoviesToday = [];
   List<MovieResultModel> trendingMoviesThisWeek = [];
   List<MovieResultModel> selectedMovies = [];
@@ -68,7 +68,7 @@ class HomeController extends GetxController {
     try {
       final path = "${EnvironmentValues.trendingBaseURL}/${window.name}";
       final responseRaw = await _client.get(path, trendingRequest.toMap());
-      response = TrendingResponseModel.fromMap(responseRaw);
+      response = MovieListResponseModel.fromMap(responseRaw);
       final newMovies = response?.results ?? [];
       if (window == TimeWindow.day) {
         trendingMoviesToday.addAll(newMovies);

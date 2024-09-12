@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/configuration/environment_values.dart';
-import 'package:my_movies/models/trending/response/movie_result_model.dart';
+import 'package:my_movies/models/response/movie_result_model.dart';
 import 'package:my_movies/shared/helper_functions.dart';
 
 class MovieCard extends StatelessWidget {
