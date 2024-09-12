@@ -21,14 +21,46 @@ class HomePage extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: const Text("Trending"),
-        //   backgroundColor: SharedColors.favoritesRed,
-        //   foregroundColor: Colors.white,
-        // ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Trending"),
+          backgroundColor: SharedColors.favoritesRed,
+          foregroundColor: Colors.white,
+          actions: [
+            GetBuilder<HomeController>(
+              builder: (_) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: SharedColors.grey,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ToggleButtons(
+                    isSelected: _homeController.windowSelection,
+                    onPressed: (int index) => _homeController.toggleTrendingWindow(index),
+                    constraints: const BoxConstraints(minHeight: 0),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    borderRadius: BorderRadius.circular(20),
+                    selectedColor: SharedColors.favoritesRed,
+                    fillColor: Colors.white,
+                    children: const <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 6, 6, 6),
+                        child: Text("Today", style: TextStyle(fontSize: 12)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(6, 6, 8, 6),
+                        child: Text("This Week", style: TextStyle(fontSize: 12)),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -44,30 +76,6 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ],
-              ),
-              const SizedBox(height: 10),
-              GetBuilder<HomeController>(
-                builder: (_) {
-                  return ToggleButtons(
-                    isSelected: _homeController.windowSelection,
-                    onPressed: (int index) => _homeController.toggleTrendingWindow(index),
-                    constraints: const BoxConstraints(minHeight: 0),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    borderRadius: BorderRadius.circular(20),
-                    selectedColor: SharedColors.favoritesRed,
-                    fillColor: SharedColors.favoritesRed.withOpacity(0.22),
-                    children: const <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                        child: Text("Today"),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 8, 15, 8),
-                        child: Text("This Week"),
-                      ),
-                    ],
-                  );
-                },
               ),
               const SizedBox(height: 10),
               const Expanded(child: MoviesGridView()),
