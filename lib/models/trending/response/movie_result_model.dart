@@ -10,7 +10,7 @@ class MovieResultModel {
   final String? mediaType;
   final List<int>? genreIds;
   final double? popularity;
-  final DateTime? releaseDate;
+  final String? releaseDate;
   final bool? video;
   final double? voteAverage;
   final int? voteCount;
@@ -46,7 +46,7 @@ class MovieResultModel {
       originalLanguage: json["original_language"],
       genreIds: json["genre_ids"] == null ? [] : List<int>.from(json["genre_ids"]!.map((x) => x)),
       popularity: json["popularity"]?.toDouble(),
-      releaseDate: json["release_date"] == null ? null : DateTime.parse(json["release_date"]),
+      releaseDate: json["release_date"],
       video: json["video"],
       voteAverage: json["vote_average"]?.toDouble(),
       voteCount: json["vote_count"],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/modules/home/controller/home_controller.dart';
 import 'package:my_movies/modules/home/view/widgets/get_to_favorites_button.dart';
+import 'package:my_movies/modules/home/view/widgets/movies_grid_view.dart';
 import 'package:my_movies/modules/home/view/widgets/search_button.dart';
 import 'package:my_movies/modules/home/view/widgets/search_text_field.dart';
 
@@ -26,6 +27,8 @@ class HomePage extends StatelessWidget {
                 SearchButton(),
               ],
             ),
+            SizedBox(height: 10),
+            Expanded(child: MoviesGridView()),
             SizedBox(height: 10),
           ],
         ),

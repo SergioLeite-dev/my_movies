@@ -3,6 +3,8 @@ import 'package:my_movies/modules/home/home_bindings.dart';
 import 'package:my_movies/modules/home/view/home_page.dart';
 
 class RouteManager {
+  RouteManager._();
+
   static String home = "/";
 
   static List<GetPage> routes = [
