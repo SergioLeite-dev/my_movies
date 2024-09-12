@@ -9,7 +9,7 @@ class RouteManager {
     GetPage(
       name: home,
       binding: HomeBindings(),
-      page: () => const HomePage(),
+      page: () => HomePage(Get.find()),
     ),
   ];
 }
