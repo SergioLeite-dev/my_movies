@@ -29,6 +29,7 @@ class HomeController extends GetxController {
   bool finishedInitializing = false;
   bool isLoading = false;
   int page = 1;
+  bool shouldDisplayBackToTop = false;
 
   @override
   void onInit() {
@@ -60,6 +61,10 @@ class HomeController extends GetxController {
     }
   }
 
+  backToTop() {
+    scrollController.animateTo(0, duration: const Duration(milliseconds: 1600), curve: Curves.easeOutCubic);
+  }
+
   _scrollListener() {
     if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
       if (finishedInitializing) {
@@ -70,6 +75,17 @@ class HomeController extends GetxController {
         trendingRequest = trendingRequest.copyWith(page: page);
         getMovies();
       }
+    }
+
+    if (!shouldDisplayBackToTop && scrollController.offset > 1200) {
+      shouldDisplayBackToTop = true;
+      //print(shouldDisplayBackToTop);
+      update();
+    }
+    if (shouldDisplayBackToTop && scrollController.offset == 0) {
+      shouldDisplayBackToTop = false;
+      //print(shouldDisplayBackToTop);
+      update();
     }
   }
 }

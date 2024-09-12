@@ -5,6 +5,7 @@ import 'package:my_movies/modules/home/view/widgets/get_to_favorites_button.dart
 import 'package:my_movies/modules/home/view/widgets/movies_grid_view.dart';
 import 'package:my_movies/modules/home/view/widgets/search_button.dart';
 import 'package:my_movies/modules/home/view/widgets/search_text_field.dart';
+import 'package:my_movies/shared/shared_colors.dart';
 
 class HomePage extends StatelessWidget {
   final HomeController _controller;
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
                     height: 20,
                     width: 20,
                     child: const CircularProgressIndicator(
-                      color: null,
+                      color: SharedColors.favoritesRed,
                     ),
                   );
                 }
@@ -49,6 +50,25 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: GetBuilder<HomeController>(
+        builder: (_) {
+          if (_controller.shouldDisplayBackToTop) {
+            return FloatingActionButton(
+              onPressed: _controller.backToTop,
+              //shape: const CircleBorder(),
+              backgroundColor: Colors.white.withOpacity(0.82),
+              foregroundColor: SharedColors.favoritesRed,
+              mini: true,
+              child: const Icon(
+                Icons.arrow_upward,
+                size: 30,
+              ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }
