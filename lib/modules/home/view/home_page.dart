@@ -6,12 +6,14 @@ import 'package:my_movies/modules/home/view/widgets/get_to_favorites_button.dart
 import 'package:my_movies/modules/home/view/widgets/movies_grid_view.dart';
 import 'package:my_movies/modules/home/view/widgets/search_button.dart';
 import 'package:my_movies/modules/home/view/widgets/search_text_field.dart';
+import 'package:my_movies/modules/search/controller/search_movies_controller.dart';
 import 'package:my_movies/shared/shared_colors.dart';
 
 class HomePage extends StatelessWidget {
-  final HomeController _controller;
+  final HomeController _homeController;
+  final SearchMoviesController _searchController;
 
-  const HomePage(this._controller, {super.key});
+  const HomePage(this._homeController, this._searchController, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,10 @@ class HomePage extends StatelessWidget {
                 const SizedBox(width: 16),
                 SearchTextField(),
                 SearchButton(
-                  onPressed: () => Get.toNamed(RouteManager.search),
+                  onPressed: () {
+                    _searchController.onTapSearchButton();
+                    Get.toNamed(RouteManager.search);
+                  },
                 ),
               ],
             ),
@@ -42,8 +47,8 @@ class HomePage extends StatelessWidget {
             GetBuilder<HomeController>(
               builder: (_) {
                 return ToggleButtons(
-                  isSelected: _controller.windowSelection,
-                  onPressed: (int index) => _controller.toggleTrendingWindow(index),
+                  isSelected: _homeController.windowSelection,
+                  onPressed: (int index) => _homeController.toggleTrendingWindow(index),
                   constraints: const BoxConstraints(minHeight: 0),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   borderRadius: BorderRadius.circular(20),
@@ -66,7 +71,7 @@ class HomePage extends StatelessWidget {
             const Expanded(child: MoviesGridView()),
             GetBuilder<HomeController>(
               builder: (_) {
-                if (_controller.isLoading) {
+                if (_homeController.isLoading) {
                   return Container(
                     margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                     height: 20,
@@ -84,9 +89,9 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: GetBuilder<HomeController>(
         builder: (_) {
-          if (_controller.shouldDisplayBackToTop) {
+          if (_homeController.shouldDisplayBackToTop) {
             return FloatingActionButton(
-              onPressed: _controller.backToTop,
+              onPressed: _homeController.backToTop,
               backgroundColor: Colors.white.withOpacity(0.82),
               foregroundColor: SharedColors.favoritesRed,
               mini: true,

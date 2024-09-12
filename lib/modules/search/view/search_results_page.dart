@@ -33,7 +33,7 @@ class SearchResultsPage extends StatelessWidget {
                 const SizedBox(width: 16),
                 SearchTextField(),
                 SearchButton(
-                  onPressed: _controller.searchFromResultsPage,
+                  onPressed: _controller.onTapSearchButton,
                 ),
               ],
             ),

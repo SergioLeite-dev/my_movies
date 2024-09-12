@@ -14,7 +14,7 @@ class RouteManager {
     GetPage(
       name: home,
       binding: HomeBindings(),
-      page: () => HomePage(Get.find()),
+      page: () => HomePage(Get.find(), Get.find()),
     ),
     GetPage(
       name: search,

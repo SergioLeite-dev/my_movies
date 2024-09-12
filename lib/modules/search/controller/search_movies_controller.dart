@@ -40,7 +40,7 @@ class SearchMoviesController extends GetxController {
     super.dispose();
   }
 
-  void searchFromResultsPage() {
+  void onTapSearchButton() {
     if (queryString == searchRequest.query) return;
     searchRequest = SearchRequestModel(query: queryString, page: 1);
     searchedMovies.clear();
