@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_movies/modules/home/controller/home_controller.dart';
 import 'package:my_movies/modules/home/view/widgets/get_to_favorites_button.dart';
 import 'package:my_movies/modules/home/view/widgets/movies_grid_view.dart';
@@ -12,14 +13,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
+            const Row(
               children: [
                 GetToFavoritesButton(),
                 SizedBox(width: 16),
@@ -27,9 +28,24 @@ class HomePage extends StatelessWidget {
                 SearchButton(),
               ],
             ),
-            SizedBox(height: 10),
-            Expanded(child: MoviesGridView()),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
+            const Expanded(child: MoviesGridView()),
+            GetBuilder<HomeController>(
+              builder: (_) {
+                if (_controller.isLoading) {
+                  return Container(
+                    margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    height: 20,
+                    width: 20,
+                    child: const CircularProgressIndicator(
+                      color: null,
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+            //const SizedBox(height: 10),
           ],
         ),
       ),

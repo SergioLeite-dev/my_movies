@@ -11,6 +11,7 @@ class MoviesGridView extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (controller) {
         return GridView.builder(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 20,
@@ -20,6 +21,7 @@ class MoviesGridView extends StatelessWidget {
           shrinkWrap: true,
           itemCount: controller.trendingMoviesToday.length,
           itemBuilder: (context, index) => MovieCard(controller.trendingMoviesToday[index]),
+          controller: controller.scrollController,
         );
       },
     );

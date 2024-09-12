@@ -24,28 +24,52 @@ class HomeController extends GetxController {
   List<MovieResultModel> trendingMoviesThisWeek = [];
   TimeWindow window = TimeWindow.day;
 
+  //Infinite Scroll & Loading
+  late final ScrollController scrollController;
+  bool finishedInitializing = false;
+  bool isLoading = false;
+  int page = 1;
+
   @override
   void onInit() {
-    print("oia eu aqui!\n\n");
     getMovies();
+    scrollController = ScrollController(initialScrollOffset: 5.0)..addListener(_scrollListener);
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> getMovies() async {
     try {
       final path = "${EnvironmentValues.trendingBaseURL}/${window.name}";
-      print(path);
       final responseRaw = await _client.get(path, trendingRequest.toMap());
       response = TrendingResponseModel.fromMap(responseRaw);
-      trendingMoviesToday = response?.results ?? [];
-      print(response);
-      for (var e in trendingMoviesToday) {
-        print(e.title);
-      }
+      final newMovies = response?.results ?? [];
+      trendingMoviesToday.addAll(newMovies);
+      isLoading = false;
       update();
     } on DioException catch (e) {
       debugPrint(e.message);
       debugPrint(e.response.toString());
+    } finally {
+      finishedInitializing = true;
+    }
+  }
+
+  _scrollListener() {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
+      if (finishedInitializing) {
+        isLoading = true;
+        debugPrint("Loading more Movies...");
+        update();
+        page++;
+        trendingRequest = trendingRequest.copyWith(page: page);
+        getMovies();
+      }
     }
   }
 }
