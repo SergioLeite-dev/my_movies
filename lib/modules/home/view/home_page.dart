@@ -16,6 +16,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text("Trending"),
+      //   backgroundColor: SharedColors.favoritesRed,
+      //   foregroundColor: Colors.white,
+      // ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
         child: Column(
@@ -28,6 +34,30 @@ class HomePage extends StatelessWidget {
                 SearchTextField(),
                 SearchButton(),
               ],
+            ),
+            const SizedBox(height: 10),
+            GetBuilder<HomeController>(
+              builder: (_) {
+                return ToggleButtons(
+                  isSelected: _controller.windowSelection,
+                  onPressed: (int index) => _controller.toggleTrendingWindow(index),
+                  constraints: const BoxConstraints(minHeight: 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  borderRadius: BorderRadius.circular(20),
+                  selectedColor: SharedColors.favoritesRed,
+                  fillColor: SharedColors.favoritesRed.withOpacity(0.22),
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                      child: Text("Today"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8, 8, 15, 8),
+                      child: Text("This Week"),
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 10),
             const Expanded(child: MoviesGridView()),

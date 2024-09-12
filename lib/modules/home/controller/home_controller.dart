@@ -23,6 +23,7 @@ class HomeController extends GetxController {
   List<MovieResultModel> trendingMoviesToday = [];
   List<MovieResultModel> trendingMoviesThisWeek = [];
   TimeWindow window = TimeWindow.day;
+  final List<bool> windowSelection = <bool>[true, false];
 
   //Infinite Scroll & Loading
   late final ScrollController scrollController;
@@ -42,6 +43,17 @@ class HomeController extends GetxController {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  void toggleTrendingWindow(int index) {
+    for (int buttonIndex = 0; buttonIndex < windowSelection.length; buttonIndex++) {
+      if (buttonIndex == index) {
+        windowSelection[buttonIndex] = true;
+      } else {
+        windowSelection[buttonIndex] = false;
+      }
+    }
+    update();
   }
 
   Future<void> getMovies() async {
