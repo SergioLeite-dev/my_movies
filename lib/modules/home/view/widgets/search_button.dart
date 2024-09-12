@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_movies/shared/shared_colors.dart';
 
 class SearchButton extends StatelessWidget {
-  const SearchButton({super.key});
+  final void Function() onPressed;
+
+  const SearchButton({required this.onPressed, super.key});
+
   static const double height = 40;
   static const double radius = 25;
   static const double iconSize = 30;
@@ -13,7 +16,7 @@ class SearchButton extends StatelessWidget {
       height: height,
       child: ElevatedButton(
         onPressed: () {
-          //TODO: Implement feature.
+          onPressed();
           FocusScope.of(context).unfocus();
         },
         style: ElevatedButton.styleFrom(

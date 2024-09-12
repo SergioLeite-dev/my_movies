@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_movies/application/route_manager.dart';
-import 'package:my_movies/modules/home/controller/home_controller.dart';
 import 'package:my_movies/modules/home/view/widgets/get_to_favorites_button.dart';
-import 'package:my_movies/modules/home/view/widgets/movies_grid_view.dart';
 import 'package:my_movies/modules/home/view/widgets/search_button.dart';
 import 'package:my_movies/modules/home/view/widgets/search_text_field.dart';
+import 'package:my_movies/modules/search/controller/search_movies_controller.dart';
+import 'package:my_movies/modules/search/view/widgets/movies_list_view.dart';
 import 'package:my_movies/shared/shared_colors.dart';
 
-class HomePage extends StatelessWidget {
-  final HomeController _controller;
+class SearchResultsPage extends StatelessWidget {
+  final SearchMoviesController _controller;
 
-  const HomePage(this._controller, {super.key});
+  const SearchResultsPage(this._controller, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const Text("Trending"),
-      //   backgroundColor: SharedColors.favoritesRed,
-      //   foregroundColor: Colors.white,
-      // ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Search Results"),
+        backgroundColor: SharedColors.favoritesRed,
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -34,37 +33,13 @@ class HomePage extends StatelessWidget {
                 const SizedBox(width: 16),
                 SearchTextField(),
                 SearchButton(
-                  onPressed: () => Get.toNamed(RouteManager.search),
+                  onPressed: _controller.searchFromResultsPage,
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            GetBuilder<HomeController>(
-              builder: (_) {
-                return ToggleButtons(
-                  isSelected: _controller.windowSelection,
-                  onPressed: (int index) => _controller.toggleTrendingWindow(index),
-                  constraints: const BoxConstraints(minHeight: 0),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  borderRadius: BorderRadius.circular(20),
-                  selectedColor: SharedColors.favoritesRed,
-                  fillColor: SharedColors.favoritesRed.withOpacity(0.22),
-                  children: const <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                      child: Text("Today"),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(8, 8, 15, 8),
-                      child: Text("This Week"),
-                    ),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(height: 10),
-            const Expanded(child: MoviesGridView()),
-            GetBuilder<HomeController>(
+            const Expanded(child: MoviesListView()),
+            GetBuilder<SearchMoviesController>(
               builder: (_) {
                 if (_controller.isLoading) {
                   return Container(
@@ -79,10 +54,11 @@ class HomePage extends StatelessWidget {
                 return const SizedBox();
               },
             ),
+            //const SizedBox(height: 10),
           ],
         ),
       ),
-      floatingActionButton: GetBuilder<HomeController>(
+      floatingActionButton: GetBuilder<SearchMoviesController>(
         builder: (_) {
           if (_controller.shouldDisplayBackToTop) {
             return FloatingActionButton(
