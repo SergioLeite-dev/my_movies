@@ -19,8 +19,8 @@ class MoviesGridView extends StatelessWidget {
             childAspectRatio: MovieCard.ratio,
           ),
           shrinkWrap: true,
-          itemCount: controller.trendingMoviesToday.length,
-          itemBuilder: (context, index) => MovieCard(controller.trendingMoviesToday[index]),
+          itemCount: controller.selectedMovies.length,
+          itemBuilder: (context, index) => MovieCard(controller.selectedMovies[index]),
           controller: controller.scrollController,
         );
       },

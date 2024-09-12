@@ -22,6 +22,7 @@ class HomeController extends GetxController {
   TrendingResponseModel? response;
   List<MovieResultModel> trendingMoviesToday = [];
   List<MovieResultModel> trendingMoviesThisWeek = [];
+  List<MovieResultModel> selectedMovies = [];
   TimeWindow window = TimeWindow.day;
   final List<bool> windowSelection = <bool>[true, false];
 
@@ -29,7 +30,8 @@ class HomeController extends GetxController {
   late final ScrollController scrollController;
   bool finishedInitializing = false;
   bool isLoading = false;
-  int page = 1;
+  int pageForToday = 1;
+  int pageForThisWeek = 1;
   bool shouldDisplayBackToTop = false;
 
   @override
@@ -46,12 +48,18 @@ class HomeController extends GetxController {
   }
 
   void toggleTrendingWindow(int index) {
-    for (int buttonIndex = 0; buttonIndex < windowSelection.length; buttonIndex++) {
-      if (buttonIndex == index) {
-        windowSelection[buttonIndex] = true;
-      } else {
-        windowSelection[buttonIndex] = false;
-      }
+    if (index == 0) {
+      windowSelection[0] = true;
+      windowSelection[1] = false;
+      window = TimeWindow.day;
+      selectedMovies = trendingMoviesToday;
+    }
+    if (index == 1) {
+      windowSelection[0] = false;
+      windowSelection[1] = true;
+      window = TimeWindow.week;
+      selectedMovies = trendingMoviesThisWeek;
+      if (selectedMovies.isEmpty) getMovies();
     }
     update();
   }
@@ -62,7 +70,13 @@ class HomeController extends GetxController {
       final responseRaw = await _client.get(path, trendingRequest.toMap());
       response = TrendingResponseModel.fromMap(responseRaw);
       final newMovies = response?.results ?? [];
-      trendingMoviesToday.addAll(newMovies);
+      if (window == TimeWindow.day) {
+        trendingMoviesToday.addAll(newMovies);
+        selectedMovies = trendingMoviesToday;
+      } else {
+        trendingMoviesThisWeek.addAll(newMovies);
+        selectedMovies = trendingMoviesThisWeek;
+      }
       isLoading = false;
       update();
     } on DioException catch (e) {
@@ -81,10 +95,15 @@ class HomeController extends GetxController {
     if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
       if (finishedInitializing) {
         isLoading = true;
-        debugPrint("Loading more Movies...");
+        debugPrint("Loading more Movies for ${window.name}...");
         update();
-        page++;
-        trendingRequest = trendingRequest.copyWith(page: page);
+        if (window == TimeWindow.day) {
+          pageForToday++;
+          trendingRequest = trendingRequest.copyWith(page: pageForToday);
+        } else {
+          pageForThisWeek++;
+          trendingRequest = trendingRequest.copyWith(page: pageForThisWeek);
+        }
         getMovies();
       }
     }
