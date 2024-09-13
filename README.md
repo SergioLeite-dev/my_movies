@@ -1,16 +1,37 @@
-# my_movies
+# My Movies
 
-A new Flutter project.
+## O que é?
 
-## Getting Started
+My Movies é um aplicativo desenvolvido em Flutter que exibe os filmes em alta de acordo com as APIs do [The Movie DB](https://www.themoviedb.org/). Também é possível pesquisar por filmes e séries e alternar entre essas listas de maneira altamente performática.
 
-This project is a starting point for a Flutter application.
+## Funcionalidades Principais:
 
-A few resources to get you started if this is your first Flutter project:
+- Lista de Filmes e Séries em Alta hoje.
+- Em alta essa semana.
+- Busca Por Filmes e Séries.
+- Infinite Scroll: Ao chegar ao final de qualquer uma das listas (em alta hoje / essa semana / pesquisa) a respectiva API é chamada novamente e popula a lista com dados novos. Esses dados não são perdidos ao trocar de lista.
+- Back to Top: Um botão aparece ao percorrer uma certa distância na lista, trazendo o usuário de volta ao topo com uma animação.
+- Desempenho: Ao trocar de uma lista para outra, você não perde os dados da lista anterior, evitando desperdício de chamadas em API.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Pontos Técnicos:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter & Dart.
+- Arquitetura MVC Modular.
+- Gerenciamento de Estado, Injeção de Dependência e Navegação usando GetX.
+- Requisição e Resposa de APIs devidamente modeladas.
+- Null Safety.
+- Apenas duas dependências: Get e Dio.
+
+## O que está faltando?
+
+- Página com detalhes de cada Filme.
+- Testes.
+- Versão Web.
+
+## Como executar o projeto?
+
+1. Configure o ambiente Flutter no seu computador, seguindo a [documentação](https://docs.flutter.dev/get-started/install).
+2. Confira sua instalação com o comando `flutter doctor -v`.
+3. Clone este repositório.
+4. No diretório local do projeto, execute os comandos `flutter clean` seguido de `flutter pub get`.
+5. Execute o projeto utilizando o método de sua preferência.
