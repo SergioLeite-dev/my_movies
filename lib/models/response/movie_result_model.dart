@@ -14,6 +14,9 @@ class MovieResultModel {
   final bool? video;
   final double? voteAverage;
   final int? voteCount;
+  final String? name;
+  final String? firstAirDate;
+  final String? profilePath;
 
   MovieResultModel({
     this.adult,
@@ -31,6 +34,9 @@ class MovieResultModel {
     this.video,
     this.voteAverage,
     this.voteCount,
+    this.name,
+    this.firstAirDate,
+    this.profilePath,
   });
 
   factory MovieResultModel.fromMap(Map<String, dynamic> json) {
@@ -50,6 +56,9 @@ class MovieResultModel {
       video: json["video"],
       voteAverage: json["vote_average"]?.toDouble(),
       voteCount: json["vote_count"],
+      name: json["name"],
+      firstAirDate: json["first_air_date"],
+      profilePath: json["profile_path"],
     );
   }
 }

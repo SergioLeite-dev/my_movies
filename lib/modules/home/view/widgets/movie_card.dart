@@ -67,7 +67,7 @@ class MovieCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${movie?.title}",
+                    movie?.title ?? movie?.name ?? "null",
                     textAlign: TextAlign.left,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -77,7 +77,7 @@ class MovieCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    Helpers.formatDate(movie?.releaseDate),
+                    Helpers.formatDate(movie?.releaseDate ?? movie?.firstAirDate ?? ""),
                     textAlign: TextAlign.left,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

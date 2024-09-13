@@ -16,8 +16,12 @@ class MovieTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? posterURL;
+    String? profileURL;
     if (movie?.posterPath != null) {
       posterURL = "${EnvironmentValues.posterBaseURL}/${movie?.posterPath}";
+    }
+    if (movie?.profilePath != null) {
+      profileURL = "${EnvironmentValues.posterBaseURL}/${movie?.profilePath}";
     }
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -27,9 +31,9 @@ class MovieTile extends StatelessWidget {
           SizedBox(
             width: width * factor,
             height: imgHeight * factor,
-            child: posterURL != null
+            child: (posterURL != null || profileURL != null)
                 ? Image.network(
-                    posterURL,
+                    posterURL ?? profileURL ?? "",
                     fit: BoxFit.fill,
                   )
                 : const Placeholder(),
@@ -41,7 +45,7 @@ class MovieTile extends StatelessWidget {
               children: [
                 const SizedBox(height: 6),
                 Text(
-                  "${movie?.title}",
+                  movie?.title ?? movie?.name ?? "",
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                     fontSize: 22,
@@ -49,7 +53,7 @@ class MovieTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  Helpers.formatDate(movie?.releaseDate),
+                  Helpers.formatDate(movie?.releaseDate ?? movie?.firstAirDate ?? ""),
                   textAlign: TextAlign.left,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -61,7 +65,7 @@ class MovieTile extends StatelessWidget {
                 const SizedBox(height: 16),
                 Expanded(
                   child: Text(
-                    "${movie?.overview}",
+                    movie?.overview ?? "",
                     textAlign: TextAlign.left,
                     overflow: TextOverflow.fade,
                     style: const TextStyle(

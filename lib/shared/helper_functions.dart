@@ -16,7 +16,7 @@ class Helpers {
     "12": "Dec",
   };
 
-  static String formatDate(String? rawDate) {
+  static String formatDate(String rawDate) {
     if (rawDate == null || rawDate == "") return "";
     final splited = rawDate.split("-");
     if (splited.length < 3) return "";
