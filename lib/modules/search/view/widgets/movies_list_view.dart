@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_movies/modules/home/view/widgets/movie_card.dart';
 import 'package:my_movies/modules/search/controller/search_movies_controller.dart';
+import 'package:my_movies/modules/search/view/widgets/movie_tile.dart';
 
 class MoviesListView extends StatelessWidget {
   const MoviesListView({super.key});
@@ -11,10 +11,9 @@ class MoviesListView extends StatelessWidget {
     return GetBuilder<SearchMoviesController>(
       builder: (controller) {
         return ListView.builder(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
           shrinkWrap: true,
           itemCount: controller.searchedMovies.length,
-          itemBuilder: (context, index) => MovieCard(controller.searchedMovies[index]),
+          itemBuilder: (context, index) => MovieTile(controller.searchedMovies[index]),
           controller: controller.scrollController,
         );
       },
